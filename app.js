@@ -3,50 +3,29 @@ const express = require('express');
 const mongoose = require('mongoose');
 var cookieParser = require('cookie-parser')
 
-// define Model
-// const User = require('./models/user.model');
-// const Product = require('./models/product.model');
-
 // Define Router
 const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router');
 const productRouter = require('./routers/product.router');
 const sellerRouter = require('./routers/seller.router');
 const searchRouter = require('./routers/search.router');
+const apiRouter = require('./routers/authorizaiton.router');
 
 // middlewares
 const userName = require('./middlewares/username.middleware');
 const authMiddleware = require('./middlewares/auth.middleware');
+// const authorizationMiddleware = require('./middlewares/authorization.middleware');
 
 const app = express();
 
-
-
 // getting-started.js
-mongoose.connect('mongodb://localhost/son_moi_3ce', { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://ecommer:${process.env.PASSWORD}@ecommer.w6zqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // we're connected!
   console.log('Connect success!')
 });
-
-// const user = new User({phone: '0932234', email: 'trongnguyen0324@gmail.com'});
-// var now = Date.now();
-// user.cart= {
-//   [now]: 1
-// };
-
-// user.save((err, user) => {
-//   if(err) console.log(err);
-//   else console.log(user);
-// })
-
-// User.find({phone: '0932234'}, (err, user) => {
-//   if(err) console.log(err);
-//   else console.log(user[0].cart['1595131329770']);
-// })
-
 
 // Config
 app.set('views', './views');
@@ -61,17 +40,12 @@ app.use(userName.userName);
 
 const port = 3000;
 
-// app.get('/', async (req, res) => {
-//   let products = await Product.findOne();
-//   res.render('layouts/common', {
-//     products
-//   });
-// })
 app.use('/', productRouter);
 app.use('/search', searchRouter);
 app.use('/auth', authRouter);
 app.use('/user', authMiddleware.loginMiddleware, userRouter);
 app.use('/seller', authMiddleware.loginMiddleware, sellerRouter);
+app.use('/api', authMiddleware.loginMiddleware, apiRouter);
 
 app.listen(port, () => console.log(`Server listen at http://localhost:${port}`));
 

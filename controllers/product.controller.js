@@ -1,4 +1,5 @@
 const Product = require('../models/product.model');
+const initProductData = require('./crwalData');
 
 module.exports.index = async (req, res) => {
   let { keyword = ''} = req.query

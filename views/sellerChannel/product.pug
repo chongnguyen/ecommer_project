@@ -26,7 +26,7 @@ block content
             .cart-item
               .cart-item__product
                 .cart-item__img
-                  img(src=product.image, alt='')
+                  img(src=product.image.slice(1, -1), alt='')
                 a(href='/detail/'+product.id).cart-item__name= product.name
               .cart-item__unit-price
                 del= product.oldPrice.toLocaleString('vi', {style : 'currency', currency : 'VND'})

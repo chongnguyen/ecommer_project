@@ -24,7 +24,6 @@ module.exports.postRegister = async (req, res) => {
     , password = md5(req.body.password)
     , verifyCode = generatorCode()
     , verified = false;
-
   phone = phone.replace(0, '+84');
   User.create({ phone, password, verifyCode, verified }, (err, data) => {
     data.sendMessage(verifyCode, phone);
@@ -38,19 +37,27 @@ module.exports.postRegister = async (req, res) => {
 }
 
 module.exports.postLogin = async (req, res) => {
-  let { phone, password } = req.body;
-
-  phone = phone.replace(0, '+84');
-  let user = await User.findOne({ phone, password: md5(password) });
-  if (!user) {
-    res.render('auths/login', {
-      errs: ['Sai tài khoản hoặc mật khẩu!'],
-      values: req.body
+  try {
+    let { phone, password } = req.body;
+    phone = phone.replace(0, '+84');
+    let user = await User.findOne({
+      phone,
+      password: md5(password),
+      verified: true,
     });
-    return;
+    if (!user) {
+      res.render('auths/login', {
+        errs: ['Sai tài khoản hoặc mật khẩu!'],
+        values: req.body
+      });
+      return;
+    }
+    res.cookie('userId', user._id, { signed: true });
+    res.redirect('/');
+  } catch (e) {
+    res.end();
+    return e;
   }
-  res.cookie('userId', user._id, { signed: true });
-  res.redirect('/');
 }
 
 module.exports.postVerifyCode = async (req, res) => {

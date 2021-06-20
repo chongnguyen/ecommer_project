@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.sendMessage = (verifyCode, phoneNumber) => {
   const accountSid = process.env.ACCOUNT_SID;
   const authToken = process.env.AUTH_TOKEN;
+  console.log({ accountSid, authToken });
   const client = require('twilio')(accountSid, authToken);
   console.log(phoneNumber)
   client.messages
@@ -25,6 +26,7 @@ UserSchema.methods.sendMessage = (verifyCode, phoneNumber) => {
       to: phoneNumber
     })
     .then(message => console.log(message.sid));
+  console.log('xuong day roi nhe fen');
 }
 const User = mongoose.model('User', UserSchema);
 

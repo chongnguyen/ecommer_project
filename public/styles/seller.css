@@ -549,7 +549,7 @@ textarea.form-group__input {
 	justify-content: center;
 }
 .desc-product__detail{
-	white-space: pre;
+	white-space: pre-wrap;
 }
 .pagination__link {
 	display: block;
