@@ -19,14 +19,14 @@ block container
               .content-product__quantity
                 p.content-product__quantity-label S&#x1ED1; l&#x1B0;&#x1EE3;ng
                 .content-product__quantity-box
-                  button#btn-reduce.content-product__quantity-btn -
-                  input#input-quantity.content-product__quantity-input(disabled, value='1')
-                  button#btn-increase.content-product__quantity-btn +
+                  button#btn-reduce.content-product__quantity-btn.counter-minus -
+                  input#input-quantity.content-product__quantity-input.counter-display(disabled)
+                  button#btn-increase.content-product__quantity-btn.counter-plus +
               .content-product__handle
-                a#btn-show(href='/user/addToCart/' + product.id).btn.btn-add-cart
+                a#btn-show(href='/user/addToCart/' + product.id + '?1').btn.btn-add-cart
                   i.fa.fa-cart-plus
                   |                   Th&ecirc;m v&agrave;o gi&#x1ECF; h&agrave;ng
-                a(href='/user/checkout/' + product.id).btn.btn-buy-now Mua ngay
+                a#btn-buy(href=`/user/checkout/?${product.id}=1`).btn.btn-buy-now Mua ngay
               .content-product__commitment
                 p.content-product__commitment-label Cam k&#x1EBF;t c&#x1EE7;a c&#x1EED;a h&agrave;ng
                 p.content-product__commitment-item

@@ -1272,7 +1272,7 @@
 
 }
 .checkout__body {
-	background-color: var(--white-color);
+	/* background-color: var(--white-color); */
 	padding: 24px;
 	margin-top: 30px;
 	border-radius: 4px;
@@ -1282,8 +1282,11 @@
 	text-align: left;
 	font-size: 1.4rem;
 	color: var(--text-color);
-	margin-bottom: 30px;
-	border-collapse: collapse;
+	margin-bottom: 4px;
+	/* border-collapse: collapse; */
+	padding: 6px 20px;
+    border-radius: 8px;
+    background: #fff;
 }
 .table-row__item {
 	border-bottom: 1px dashed #aaa;
@@ -1309,9 +1312,17 @@
 	font-weight: 300;
 	color: #999;
 }
+.table__quantum-product {
+	text-align: center;
+}
+.table__price {
+	color: var(--primary-color);
+}
+
 .table__nameShop {
 	font-size: 1.2rem;
 }
+
 .table__nameShop > i {
 	margin-right: 8px;
 }
@@ -1321,14 +1332,13 @@
 	align-items: center;
 	justify-content: space-between;
 	padding-bottom: 30px;
-	border-bottom: 1px dashed #aaa;
 }
 .checkout__product-note {
 	font-size: 1.6rem;
 
 }
 .checkout__product-note > input {
-	height: 40px;
+	height: 30px;
 	padding: 0px 8px;
 	font-size: 1.6rem;
 	margin-left: 12px;

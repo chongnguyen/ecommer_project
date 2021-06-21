@@ -109,36 +109,38 @@ block container
           i(class="far fa-edit")
       .checkout__body
         form(action="", method="POST").checkout__product
-          table.checkout__tabel
-            thead
-              tr
-                th.table__heading Sản phẩm
-                th.table__price Đơn giá
-                th.table__quantum Số lượng 
-                th.table__pay Thành tiền
-            tbody
-              tr
-                td(colspan="4")
-                  p.table__nameShop
-                    i(class="fas fa-store")
-                    span= user.shopName || 'Chương'
-              tr.table-row__item
-                td.table-row__product
-                  img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='anh san pham')
-                  p.table__name-product= product.name
-                td=(product.price / 1000).toFixed(3) + 'đ'
-                td 1
-                td=(product.price / 1000).toFixed(3) + 'đ'
-          .checkout__product-message
-            .checkout__product-note
-              label(for="note") Lời nhắn
-              input(type="text" name='note' placeholder='Ghi chú cho chủ shop')
-            .checkout__product-move
-              span Phí vận chuyễn: 
-              span 24.000đ 
+          each product, index in products 
+            table.checkout__tabel
+              //- thead
+              //-   tr
+              //-     th.table__heading Sản phẩm
+              //-     th.table__price Đơn giá
+              //-     th.table__quantum Số lượng 
+              //-     th.table__pay Thành tiền
+              tbody
+                tr
+                  td(colspan="4")
+                    p.table__nameShop
+                      i(class="fas fa-store")
+                      span= user.shopName || 'Chương'
+                tr.table-row__item
+                  td.table-row__product
+                    img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='anh san pham')
+                    p.table__name-product= product.name
+                  td=(product.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})
+                  //- td.table__quantum-product= `x${quantum[index]}`
+                  td.table__quantum-product= `x${product.sl}`
+                  td.table__price=(product.price * product.sl).toLocaleString('vi', {style : 'currency', currency : 'VND'})
+            .checkout__product-message
+              .checkout__product-note
+                label(for="note") Lời nhắn
+                input(type="text" name='note' placeholder='Ghi chú cho chủ shop')
+              .checkout__product-move
+                span Phí vận chuyễn: 
+                span 24.000đ 
           .checkout__product-pay
             span Tổng số tiền:
-            span= (product.price / 1000).toFixed(3) + 'đ'
+            span= (totalPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})
           .checkout__product-btn
             input#btn-show.checkout__product-btn-input.btn.btn-primary(type='submit' value='Đặt hàng')
   div#box-notify

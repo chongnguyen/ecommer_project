@@ -26,17 +26,17 @@ block content-profile
                 span.purchase__state-label Chờ xác nhận
           .purchase__item
             .purchase__item-pic
-              img(src= product.image, alt='')
+              img(src= product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
             .purchase__item-content
               p.purchase__item-name= product.name
-              span.purchase__item-quantity x1
+              span.purchase__item-quantity= `x${bills[i].quantum || 1}`
             .purchase__item-unit-price
-              del.purchase__item-unit-oldprice= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-              span.purchase__item-unit-newprice= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+              del.purchase__item-unit-oldprice= product.oldPrice.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+              span.purchase__item-unit-newprice= product.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})
           .purchase__body-bottom
             .purchase__body-bottom-price
               span.purchase__body-bottom-label T&#x1ED5;ng s&#x1ED1; ti&#x1EC1;n: 
-              .purchase__body-bottom-totalprice= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+              .purchase__body-bottom-totalprice= (bills[i].price).toLocaleString('vi', {style : 'currency', currency : 'VND'})
             .purchase__body-bottom-action
               a.btn.btn-primary.btn-buy-again(href='#') Mua l&#x1EA7;n n&#x1EEF;a
               a.btn.btn-secondary.btn-detail-bill(href='#') Chi ti&#x1EBF;t &dstrok;&#x1A1;n h&agrave;ng
