@@ -26,10 +26,10 @@ block content
             .cart-item
               .cart-item__product
                 .cart-item__img
-                  img(src=product.image.slice(1, -1), alt='')
+                  img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
                 a(href='/detail/'+product.id).cart-item__name= product.name
               .cart-item__unit-price
-                del= product.oldPrice.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+                del= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
                 span &nbsp;&nbsp;&nbsp;
                 span= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
               .cart-item__quantum= product.quantum
@@ -59,8 +59,8 @@ block content
                   a.pagination__link.disabled-link(href='?page=' + (active + 1))
                     i.pagination__link-icon.fas.fa-angle-right
           //- End Pagination
-          div.cart-btn
-            a.btn.btn-primary.btn-purchase Mua hàng
+          //- div.cart-btn
+          //-   a.btn.btn-primary.btn-purchase Mua hàng
         //- table.bill-box__body
         //-   thead
         //-     tr.table__heading

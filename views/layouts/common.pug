@@ -120,7 +120,7 @@ html(lang="vi")
           .header-with-search
             a.header__logo(href='/')
               img(src='/image/logo1.png', alt='logo')
-            form.header__form(action='', method='get')
+            form.header__form(action='/', method='get')
               input.header__form-input(value=keyword ||'', name='keyword', placeholder='Tìm sản phẩm, thương hiệu,...')
               .header__form-history
                 a.header__form-history-item(href='#') T&#x1EA5;m l&oacute;t chu&#x1ED9;t
@@ -198,13 +198,25 @@ html(lang="vi")
                   // End filter bar left
                   .filter-bar__right
                     .filter-bar__page
-                      span.filter-bar__page-current 1
-                      span /14
+                      span.filter-bar__page-current= active
+                      span= '/' + totalPages
                     .filter-bar__directional
-                      a.filter-bar__directional--left.filter-bar__directional--disable(href='#')
-                        i.fa.fa-angle-left
-                      a.filter-bar__directional--right(href='#')
-                        i.fa.fa-angle-right
+                      if(hasPrevPage)
+                        //- a.pagination__link(href='?page=' + (active - 1))
+                        //-   i.pagination__link-icon.fas.fa-angle-left
+                        a.filter-bar__directional--left(href='?page=' + prevPage)
+                          i.fa.fa-angle-left
+                      else
+                        a.filter-bar__directional--left.filter-bar__directional--disable
+                          i.fa.fa-angle-left
+                      if(hasNextPage)
+                        //- a.pagination__link(href='?page=' + (active - 1))
+                        //-   i.pagination__link-icon.fas.fa-angle-left
+                        a.filter-bar__directional--right(href='?page=' + nextPage)
+                          i.fa.fa-angle-right
+                      else
+                        a.filter-bar__directional--right.filter-bar__directional--disable
+                          i.fa.fa-angle-right
                   // End filter bar right
                 // End filter bar
                 .home-product
@@ -219,7 +231,8 @@ html(lang="vi")
                             .product-card__body
                               h2.product-card__name= product.name
                               .product-card__price
-                                del.product-card__price--old #{(product.oldPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                                if(product.oldPrice != product.price)
+                                  del.product-card__price--old #{(product.oldPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                 span.product-card__price--new #{(product.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                 span.product-card__ship
                                   i.fa.fa-shipping-fast
@@ -231,11 +244,12 @@ html(lang="vi")
                                   i.fa.fa-star
                                   i.far.fa-star
                                 .product-card__rating-sold &Dstrok;&atilde; b&aacute;n 160
-                              .product-card__address-shop Tp H&#x1ED3; Ch&iacute; Minh
+                              .product-card__address-shop= product.address
                             .product-card__favorite-tag Y&ecirc;u th&iacute;ch
-                            .product-card__discount-tag
-                              span.product-card__discount-percent= Math.round((1 - product.price / product.oldPrice) * 100) + '%'
-                              span.product-card__discount-label GI&#x1EA2;M
+                            if(product.oldPrice != product.price)
+                              .product-card__discount-tag
+                                span.product-card__discount-percent= Math.round((1 - product.price / product.oldPrice) * 100) + '%'
+                                span.product-card__discount-label GI&#x1EA2;M
                 // End home product
               // End main-content
               .pagination

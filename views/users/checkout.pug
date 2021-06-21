@@ -124,7 +124,7 @@ block container
                     span= user.shopName || 'Chương'
               tr.table-row__item
                 td.table-row__product
-                  img(src=product.image, alt="hình ảnh")
+                  img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='anh san pham')
                   p.table__name-product= product.name
                 td=(product.price / 1000).toFixed(3) + 'đ'
                 td 1

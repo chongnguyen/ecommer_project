@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 var cookieParser = require('cookie-parser')
+var morgan = require('morgan')
+
 
 // Define Router
 const authRouter = require('./routers/auth.router');
@@ -15,6 +17,7 @@ const apiRouter = require('./routers/authorizaiton.router');
 const userName = require('./middlewares/username.middleware');
 const authMiddleware = require('./middlewares/auth.middleware');
 // const authorizationMiddleware = require('./middlewares/authorization.middleware');
+
 
 const app = express();
 
@@ -34,6 +37,7 @@ app.use(express.static('public'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(morgan('dev'))
 
 // Middleware use for all router
 app.use(userName.userName);

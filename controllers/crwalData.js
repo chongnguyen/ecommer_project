@@ -103,6 +103,7 @@ module.exports.initProductData = async (req, res) => {
                     description: document.querySelector('._3yZnxJ')?.textContent,
                     image: document.querySelector('._12uy03._2GchKS')?.style.backgroundImage?.slice(4, -1),
                     date: new Date(),
+                    address: document.querySelector('._1afiLm').lastElementChild.textContent?.split(',')[1]?.trim() || 'TP. Hồ Chí Minh',
                 }
                 return product;
             `);

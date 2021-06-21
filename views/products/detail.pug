@@ -14,7 +14,8 @@ block container
               h2.content-product__title= product.name
               .content-product__price
                 span.content-product__price-new=(product.price / 1000).toFixed(3) + 'đ'
-                del.content-product__price-old=(product.oldPrice / 1000).toFixed(3) + 'đ'
+                if(product.oldPrice != product.price)
+                  del.content-product__price-old=(product.oldPrice / 1000).toFixed(3) + 'đ'
               .content-product__quantity
                 p.content-product__quantity-label S&#x1ED1; l&#x1B0;&#x1EE3;ng
                 .content-product__quantity-box
@@ -58,11 +59,12 @@ block container
               a.product-card__link(href=`/detail/${s_product.id}`)
                 .product-card
                   .product-card__image(style=`background-image: url(${s_product.image});`)
-                    // <img src="https://cf.shopee.vn/file/8bfdf4fd7920223080f33b73f7cc7389_tn" alt="image">
+                    //- <img src="https://cf.shopee.vn/file/8bfdf4fd7920223080f33b73f7cc7389_tn" alt="image">
                   .product-card__body
                     h2.product-card__name= s_product.name
                     .product-card__price
-                      del.product-card__price--old #{(s_product.oldPrice / 1000).toFixed(3)}&dstrok;
+                      if(s_product.oldPrice != s_product.price)
+                        del.product-card__price--old #{(s_product.oldPrice / 1000).toFixed(3)}&dstrok;
                       span.product-card__price--new #{(s_product.price / 1000).toFixed(3)}&dstrok;
                       span.product-card__ship
                         i.fa.fa-shipping-fast
@@ -74,11 +76,12 @@ block container
                         i.fa.fa-star
                         i.far.fa-star
                       .product-card__rating-sold &Dstrok;&atilde; b&aacute;n 160
-                    .product-card__address-shop Tp H&#x1ED3; Ch&iacute; Minh
+                    .product-card__address-shop= product.address
                   .product-card__favorite-tag Y&ecirc;u th&iacute;ch
-                  .product-card__discount-tag
-                    span.product-card__discount-percent= Math.round((1- s_product.price / s_product.oldPrice) * 100) + '%'
-                    span.product-card__discount-label GI&#x1EA2;M
+                  if(s_product.oldPrice != s_product.price)
+                    .product-card__discount-tag
+                      span.product-card__discount-percent= Math.round((1- s_product.price / s_product.oldPrice) * 100) + '%'
+                      span.product-card__discount-label GI&#x1EA2;M
   div#box-notify
     div.box-notify-image
       img(src="/image/done-icon.png")

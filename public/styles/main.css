@@ -433,6 +433,7 @@
 
 .address {
 	margin-top: 40px;
+	margin-bottom: 40px;
 }
 .category__heading {
 	padding: 0px 8px;
@@ -450,6 +451,9 @@
 	border-bottom: 1px solid #dfdfdf;
 	padding: 0px 8px;
 	text-transform: capitalize;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .category__item-link:hover,
@@ -618,6 +622,9 @@
 	color: #919191;
 	font-size: 1.4rem;
 	margin-right: 8px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 .product-card__price--new {
 	color: var(--primary-color);
@@ -629,6 +636,7 @@
 	color: #20C7B0;
 	font-size: 1.6rem;
 	margin-left: auto;
+	display: none;
 }
 .product-card__rating {
 	color: #FFCE3D;
