@@ -18,6 +18,16 @@ module.exports.verifyCode = (req, res) => {
 
   })
 }
+module.exports.forgotPassword = (req, res) => {
+  res.render('auths/forgotPassword', {
+
+  })
+}
+module.exports.resetPassword = (req, res) => {
+  res.render('auths/resetPassword', {
+
+  })
+}
 
 module.exports.postRegister = async (req, res) => {
   let { phone } = req.body
@@ -25,6 +35,17 @@ module.exports.postRegister = async (req, res) => {
     , verifyCode = generatorCode()
     , verified = false;
   phone = phone.replace(0, '+84');
+  const existsPhone = await User.findOne({ phone });
+  if(existsPhone) {
+    res.render('auths/register', {
+      errs: ['Số điện thoại đã được sử dụng'],
+      values: {
+        phone,
+      }
+    })
+    return;
+  }
+
   User.create({ phone, password, verifyCode, verified }, (err, data) => {
     data.sendMessage(verifyCode, phone);
   });
@@ -72,6 +93,62 @@ module.exports.postVerifyCode = async (req, res) => {
   user.save();
   res.send('<script>alert("Dang ky thanh cong!"); location.assign("/auth/login")</script>');
 
+}
+module.exports.postVerifyForgot = async (req, res) => {
+  let { verifyCode } = req.body;
+  let user = await User.findOne({ verifyCode, verified: true });
+  if (!user) {
+    res.send('<script>alert("Sai mã xác nhận! Vui long kiểm tra lại"); location.assign("/auth/verifyCode")</script>');
+    return;
+  }
+  user.verifyCode = undefined;
+  await user.save();
+  res.redirect(`/auth/forgot/resetPassword?phone=${user.phone}`);
+}
+
+module.exports.postForgotPassword = async (req, res) => {
+  const phone = req.body.phone.replace(0, '+84');
+  let user = await User.findOne({ phone, verified: true });
+  if (!user) {
+    res.render('auths/forgotPassword', {
+      errs: ['Số điện thoại chưa đăng ký'],
+      values: req.body,
+    })
+    return;
+  }
+  // const verifyCode = generatorCode();
+  user.verifyCode = '1234';
+  await user.save();
+  res.redirect('/auth/forgot/verifyCode');
+}
+module.exports.postResetPassword = async (req, res) => {
+  const { password, confirm } = req.body;
+  const phone = req.query.phone.replace(' ', '+');
+  const errs = [];
+  if(password !== confirm){
+    errs.push('Mật khẩu không khớp!');
+  }
+  if(password.length < 8){
+    errs.push('Mật khẩu tối thiểu 8 ký tự')
+  }
+  if(errs.length) {
+    res.render('auths/resetPassword', {
+      values: req.body,
+      errs,
+    })
+    return;
+  }
+  let user = await User.findOne({ phone, verified: true });
+  user.password = md5(req.body.password);
+  if (!user) {
+    res.render('auths/resetPassword.pug', {
+      errs: ['user not found'],
+      values: req.body,
+    })
+    return;
+  }
+  await user.save();
+  res.redirect('/auth/login');
 }
 
 // window.location.assign("/")

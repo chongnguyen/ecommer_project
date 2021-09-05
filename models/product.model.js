@@ -11,9 +11,11 @@ const ProductSchema = new mongoose.Schema({
   quantum: Number,
   sku: String,
   shopId: String,
-  date: Date
+  date: Date,
+  address: String,
 });
 
+ProductSchema.index({name: 'text'});
 ProductSchema.plugin(mongoosePaginate);
 
 const Product = mongoose.model('Product', ProductSchema);

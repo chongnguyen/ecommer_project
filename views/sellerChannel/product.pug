@@ -40,25 +40,25 @@ block content
             ul.pagination__list
               li.pagination__item
                 if(hasPrevPage)
-                  a.pagination__link(href='?page=' + prevPage)
+                  a.pagination__link(href='?page=' + (active - 1))
                     i.pagination__link-icon.fas.fa-angle-left
                 else
                   a.pagination__link.disabled-link
                     i.pagination__link-icon.fas.fa-angle-left
-              - var n = 0
-                while n < totalPages
-                  li.pagination__item
-                    if(page === ++n)
-                      a.pagination__link.pagination__link--active(href='?page=' + n)= n
-                    else
-                      a.pagination__link(href='?page=' + n)= n
+              each page in pages
+                li.pagination__item
+                  if(page === active)
+                    a.pagination__link.pagination__link--active(href='?page=' + page)= page
+                  else 
+                    a.pagination__link(href='?page=' + page)= page
               li.pagination__item
                 if(hasNextPage)
-                  a.pagination__link(href='?page=' + nextPage)
+                  a.pagination__link(href='?page=' + (active + 1))
                     i.pagination__link-icon.fas.fa-angle-right
                 else
-                  a.pagination__link.disabled-link(href='?page=' + nextPage)
+                  a.pagination__link.disabled-link(href='?page=' + (active + 1))
                     i.pagination__link-icon.fas.fa-angle-right
+          //- End Pagination
           div.cart-btn
             a.btn.btn-primary.btn-purchase Mua hàng
         //- table.bill-box__body

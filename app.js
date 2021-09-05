@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 var cookieParser = require('cookie-parser')
+const morgan = require('morgan');
 
 // Define Router
 const authRouter = require('./routers/auth.router');
@@ -28,6 +29,7 @@ db.once('open', function () {
 });
 
 // Config
+app.use(morgan('dev'))
 app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(express.static('public'));

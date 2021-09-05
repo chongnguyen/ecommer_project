@@ -906,6 +906,11 @@
   color: #777;
   float: right;
 }
+.lable-login-left {
+  font-size: 1.2rem;
+  color: #777;
+  float: left;
+}
 
 .lable-login-link {
   color: var(--primary-color);
