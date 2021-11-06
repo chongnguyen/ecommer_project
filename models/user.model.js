@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   avatar: String,
   address: String,
   shopName: String,
-  cart: JSON
+  cart: {type: JSON, default: '{}'}
 });
 
 UserSchema.methods.sendMessage = (verifyCode, phoneNumber) => {

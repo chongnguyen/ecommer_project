@@ -73,22 +73,11 @@ body
                     .todo__content
                       .row
                         -n = 0;
-                        .col.l-3
-                          a.todo__item.separate(href='/seller/bill')
-                            p.todo__item-num= stateBill[n++] || 0
-                            p.todo__item-label Ch&#x1EDD; x&aacute;c nh&#x1EAD;n
-                        .col.l-3
-                          a.todo__item.separate(href='/seller/bill')
-                            p.todo__item-num= stateBill[n++] || 0
-                            p.todo__item-label &Dstrok;&atilde; x&#x1EED; l&yacute;
-                        .col.l-3
-                          a.todo__item.separate(href='')
-                            p.todo__item-num= stateBill[n++] || 0
-                            p.todo__item-label &Dstrok;&#x1A1;n h&#x1EE7;y
-                        .col.l-3
-                          a.todo__item(href='')
-                            p.todo__item-num= stateBill[n++] || 0
-                            p.todo__item-label &Dstrok;&atilde; x&#x1EED; l&yacute;
+                        each tab, i in tabs
+                          .col.l-3
+                            a.todo__item.separate(href='/seller/bill?type=' + i)
+                              p.todo__item-num= stateBill[n++] || 0
+                              p.todo__item-label= tab
                         .col.l-3
                           a.todo__item.separate(href='')
                             p.todo__item-num= stateBill[n++] || 0
