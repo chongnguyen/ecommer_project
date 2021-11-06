@@ -1478,6 +1478,11 @@
   font-size: 1.6rem;
   border: 2px solid transparent;
 }
+.purchase__counter {
+    font-size: 1.6rem;
+	margin-left: 8px;
+	color: var(--primary-color);
+}
 .purchase__topbar__link:hover,
 .purchase__topbar__link.active {
   border-bottom-color: var(--primary-color);

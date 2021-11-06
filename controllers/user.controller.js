@@ -13,8 +13,8 @@ module.exports.cart = async (req, res) => {
   // let quantumInCart = Object.values(cart);
   let listProduct = await Product.find({ _id: { $in: productsInCart } }) || [];
   let queryParams = '';
-  for(const key in cart){
-    queryParams+= `${key}=${cart[key]}&`
+  for (const key in cart) {
+    queryParams += `${key}=${cart[key]}&`
   }
   res.render('users/cart', {
     listProduct,
@@ -24,21 +24,60 @@ module.exports.cart = async (req, res) => {
 }
 
 module.exports.purchase = async (req, res) => {
+  const tabs = [
+    'Chờ xác nhận',
+    'Đang giao',
+    'Đã giao',
+    'Đã hủy',
+  ];
   let { userId } = req.signedCookies;
+  const { type } = req.query;
+  const billCondition = {
+    buyerId: userId,
+    state: { $ne: 3 },
+  };
+  if (type != null) {
+    billCondition.state = type;
+  }
+
   let user = await User.findById({ _id: userId });
-  let bills = await Bill.find({ buyerId: userId })
+  let bills = await Bill.find(billCondition);
   let products = []
   let shops = []
   for (let i in bills) {
     products[i] = await Product.findById({ _id: bills[i].productId });
     shops[i] = await User.findOne({ _id: bills[i].shopId });
   }
+  const billWaiting = await Bill.find({ buyerId: userId, state: 0 }).countDocuments()
+  const billDelivering = await Bill.find({ buyerId: userId, state: 1 }).countDocuments()
+  const billDelivered = await Bill.find({ buyerId: userId, state: 2 }).countDocuments()
+  const billStatus = [
+    billWaiting,
+    billDelivering,
+    billDelivered,
+  ]
   res.render('users/purchase', {
     bills,
     products,
     shops,
-    user
+    user,
+    tabs,
+    billStatus,
+    type,
   });
+}
+
+module.exports.confirmDeliveredProduct = (req, res) => {
+	let id = req.params.billId;
+	let bill = Bill.findOne({ _id: id }, (err, bill) => {
+		if (err) {
+			res.send('<script>alert("Xac nhan that bại")</script>');
+			return;
+		}
+		bill.state++;
+		bill.save();
+    res.redirect('back');
+	});
 }
 
 module.exports.removeItemCart = async (req, res) => {
@@ -55,16 +94,23 @@ module.exports.removeItemCart = async (req, res) => {
 
 }
 
-module.exports.removeBill = async (req, res) => {
+module.exports.cancelBill = async (req, res) => {
   let { billId } = req.params;
   const { userId } = req.signedCookies;
-  await Bill.findOneAndDelete({
+  console.log({
     _id: billId,
     buyerId: userId,
   });
+  const bill = await Bill.findOneAndUpdate({
+    _id: billId,
+    buyerId: userId,
+  }, {
+    state: 3,
+  }, { new: true });
+
+  console.log({ bill });
 
   res.redirect('back');
-
 }
 
 module.exports.account = async (req, res) => {
@@ -109,7 +155,7 @@ module.exports.addToCart = async (req, res) => {
   }
 
   if (cart[productId]) {
-    cart[productId]+= quantum
+    cart[productId] += quantum
   } else {
     cart[productId] = quantum;
   }
@@ -161,7 +207,7 @@ module.exports.postCheckout = async (req, res) => {
   const bills = [];
   // let { productId } = req.params;
   let buyerId = req.signedCookies.userId;
-  let { note : notes } = req.body;
+  let { note: notes } = req.body;
   let i = 0;
   for (const productId of productIds) {
     let product = await Product.findOne({ _id: productId }) || {};
@@ -179,7 +225,7 @@ module.exports.postCheckout = async (req, res) => {
     });
     i++;
   }
-  
+
   Bill.insertMany(bills, (err) => {
     if (err) {
       console.log(err)

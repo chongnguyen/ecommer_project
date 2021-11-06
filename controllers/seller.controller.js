@@ -2,10 +2,16 @@ const Bill = require('../models/bill.model.js');
 const Product = require('../models/product.model.js');
 const User = require('../models/user.model.js');
 const { calculatePaginate } = require('./product.controller');
-
+const tabs = [
+	'Chờ xác nhận',
+	'Đang giao',
+	'Đã giao',
+	'Đã hủy'
+];
 module.exports.index = async (req, res) => {
 	let { userId: shopId } = req.signedCookies;
 	let bills = await Bill.find({ shopId }) || [];
+	console.log(bills)
 	let stateBill = { 0: 0, 1: 0, 2: 0, 3: 0 };
 
 	for (let bill of bills) {
@@ -13,7 +19,8 @@ module.exports.index = async (req, res) => {
 		stateBill[state]++;
 	}
 	res.render('sellerChannel/index', {
-		stateBill
+		stateBill,
+		tabs,
 	});
 }
 module.exports.create = (req, res) => {
@@ -98,16 +105,22 @@ module.exports.product = async (req, res) => {
 }
 module.exports.bill = async (req, res) => {
 	let { userId: shopId } = req.signedCookies;
+	const { type } = req.query;
+	const billCondition = {
+		shopId,
+		state: { $ne: 3 },
+	};
 
-	let bills = await Bill.find({ shopId }) || [];
+	if (type != null) {
+		billCondition.state = type;
+	}
+	let bills = await Bill.find(billCondition);
 	let productIds = [];
 
 	for (let bill of bills) {
-		console.log(bill);
 		productIds.push(bill.productId);
 	}
-	console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-	console.log(productIds);
+
 	const {
 		page: currentPage = 1,
 		q: search,
@@ -118,6 +131,15 @@ module.exports.bill = async (req, res) => {
 	if (search) {
 		conditions.name = { $regex: new RegExp(search), $options: 'i' }
 	}
+	const billWaiting = await Bill.find({ buyerId: shopId, state: 0 }).countDocuments()
+	const billDelivering = await Bill.find({ buyerId: shopId, state: 1 }).countDocuments()
+	const billDelivered = await Bill.find({ buyerId: shopId, state: 2 }).countDocuments()
+	const billStatus = [
+		billWaiting,
+		billDelivering,
+		billDelivered,
+	]
+	
 	let {
 		docs: products,
 		page,
@@ -140,6 +162,9 @@ module.exports.bill = async (req, res) => {
 		prevPage,
 		search,
 		bills,
+		tabs,
+		billStatus,
+		type,
 	});
 }
 
@@ -174,7 +199,7 @@ module.exports.postConfirmBill = (req, res) => {
 			res.send('<script>alert("Xac nhan that bại")</script>');
 			return;
 		}
-		bill.state = 1;
+		bill.state++;
 		bill.save();
 	});
 	res.redirect('/seller/bill');
