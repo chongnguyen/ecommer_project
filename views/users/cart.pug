@@ -16,7 +16,7 @@ block container
             .cart-item__product
               input.cart-item__checkbox(type='checkbox' value= product.id name='product_id')
               .cart-item__img
-                img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
+                img(src=product.image ? product.image : '/image/default-image.jpeg', alt='')
               a(href='/detail/'+product.id).cart-item__name= product.name
             .cart-item__unit-price
               del= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})

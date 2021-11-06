@@ -4,16 +4,38 @@ block contentHeader
 block content
   .bill-box
     .bill-box__top
-      .bill-box__top-nav
-        a.bill-box__top-item(href='/bill') Tất cả
-        a.bill-box__top-item(href='/') Chờ xác nhận
-        a.bill-box__top-item(href='/') Đang giao
-        a.bill-box__top-item(href='/') Đã giao
-        a.bill-box__top-item(href='/') Đã huỷ
+      //- .bill-box__top-nav
+        //- a.bill-box__top-item(href='/seller/product') Tất cả
+        //- a.bill-box__top-item(href='/') Chờ xác nhận
+        //- a.bill-box__top-item(href='/') Đang giao
+        //- a.bill-box__top-item(href='/') Đã giao
+        //- a.bill-box__top-item(href='/') Đã huỷ
       .bill-box__top-search
         form(action="", method="get")
           input.bill-box__top-input(value = search || '', name='q' placeholder='Tìm đơn hàng')
           input.btn.btn-primary.bill-box__top-btn(type="submit", value="Tìm")
+    //- block table
+    //-   .bill-box__body
+    //-     .cart
+    //-       .cart-bar
+    //-         .cart-bar__product S&#x1EA3;n ph&#x1EA9;m
+    //-         .cart-bar__unit-price &Dstrok;&#x1A1;n gi&aacute;
+    //-         .cart-bar__quantum S&#x1ED1; l&#x1B0;&#x1EE3;ng
+    //-         .cart-bar__handle Thao t&aacute;c
+    //-       each product, i in products
+    //-         .cart-item
+    //-           .cart-item__product
+    //-             .cart-item__img
+    //-               img(src=product.image ? product.image : '/image/default-image.jpeg', alt='')
+    //-             a(href='/detail/'+product.id).cart-item__name= product.name
+    //-           .cart-item__unit-price
+    //-             del= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+    //-             span &nbsp;&nbsp;&nbsp;
+    //-             span= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+    //-           .cart-item__quantum= product.quantum
+    //-           .cart-item__handle
+    //-             a.cart-item__delete.cart-item__delete-blue(href='/seller/update/' + product.id)  Sửa
+    //-             a.cart-item__delete(href='/seller/product/delete/' + product.id)  X&oacute;a
     block table
       .bill-box__body
         .cart
@@ -26,38 +48,66 @@ block content
             .cart-item
               .cart-item__product
                 .cart-item__img
-                  img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
+                  img(src=product.image, alt='')
                 a(href='/detail/'+product.id).cart-item__name= product.name
               .cart-item__unit-price
-                del= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-                span &nbsp;&nbsp;&nbsp;
-                span= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                //- del= product.oldPrice.toLocaleString('vi', {style : 'currency', currency : 'VND'})
+                //- span &nbsp;&nbsp;&nbsp;
+                span= product.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})
               .cart-item__quantum= product.quantum
               .cart-item__handle
                 a.cart-item__delete.cart-item__delete-blue(href='/seller/update/' + product.id)  Sửa
                 a.cart-item__delete(href='/seller/product/delete/' + product.id)  X&oacute;a
-          .pagination
-            ul.pagination__list
-              li.pagination__item
-                if(hasPrevPage)
-                  a.pagination__link(href='?page=' + (active - 1))
-                    i.pagination__link-icon.fas.fa-angle-left
-                else
-                  a.pagination__link.disabled-link
-                    i.pagination__link-icon.fas.fa-angle-left
-              each page in pages
+          if !products[0]
+            .cart-empty-box
+              .cart-empty-img.bill
+                img(src="/image/empty-box.png", alt="")
+              p.cart-empty-label Chưa có sản phẩm nào!
+          else 
+            .pagination
+              ul.pagination__list
                 li.pagination__item
-                  if(page === active)
-                    a.pagination__link.pagination__link--active(href='?page=' + page)= page
-                  else 
-                    a.pagination__link(href='?page=' + page)= page
-              li.pagination__item
-                if(hasNextPage)
-                  a.pagination__link(href='?page=' + (active + 1))
-                    i.pagination__link-icon.fas.fa-angle-right
-                else
-                  a.pagination__link.disabled-link(href='?page=' + (active + 1))
-                    i.pagination__link-icon.fas.fa-angle-right
+                  if(hasPrevPage)
+                    a.pagination__link(href='?page=' + (active - 1))
+                      i.pagination__link-icon.fas.fa-angle-left
+                  else
+                    a.pagination__link.disabled-link
+                      i.pagination__link-icon.fas.fa-angle-left
+                each page in pages
+                  li.pagination__item
+                    if(page === active)
+                      a.pagination__link.pagination__link--active(href='?page=' + page)= page
+                    else 
+                      a.pagination__link(href='?page=' + page)= page
+                li.pagination__item
+                  if(hasNextPage)
+                    a.pagination__link(href='?page=' + (active + 1))
+                      i.pagination__link-icon.fas.fa-angle-right
+                  else
+                    a.pagination__link.disabled-link(href='?page=' + (active + 1))
+                      i.pagination__link-icon.fas.fa-angle-right
+          //- .pagination
+          //-   ul.pagination__list
+          //-     li.pagination__item
+          //-       if(hasPrevPage)
+          //-         a.pagination__link(href='?page=' + (active - 1))
+          //-           i.pagination__link-icon.fas.fa-angle-left
+          //-       else
+          //-         a.pagination__link.disabled-link
+          //-           i.pagination__link-icon.fas.fa-angle-left
+          //-     each page in pages
+          //-       li.pagination__item
+          //-         if(page === active)
+          //-           a.pagination__link.pagination__link--active(href='?page=' + page)= page
+          //-         else 
+          //-           a.pagination__link(href='?page=' + page)= page
+          //-     li.pagination__item
+          //-       if(hasNextPage)
+          //-         a.pagination__link(href='?page=' + (active + 1))
+          //-           i.pagination__link-icon.fas.fa-angle-right
+          //-       else
+          //-         a.pagination__link.disabled-link(href='?page=' + (active + 1))
+          //-           i.pagination__link-icon.fas.fa-angle-right
           //- End Pagination
           //- div.cart-btn
           //-   a.btn.btn-primary.btn-purchase Mua hàng
@@ -77,5 +127,4 @@ block content
         //-         td= (product.price / 1000).toFixed(3) + 'đ'
         //-         td= 1
         
-        if !products[0]
-          p Chưa có sản phẩm nào!
+        

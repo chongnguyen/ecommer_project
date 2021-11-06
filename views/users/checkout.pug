@@ -125,7 +125,7 @@ block container
                       span= user.shopName || 'Chương'
                 tr.table-row__item
                   td.table-row__product
-                    img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='anh san pham')
+                    img(src=product.image ? product.image : '/image/default-image.jpeg', alt='anh san pham')
                     p.table__name-product= product.name
                   td=(product.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})
                   //- td.table__quantum-product= `x${quantum[index]}`
@@ -143,10 +143,11 @@ block container
             span= (totalPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})
           .checkout__product-btn
             input#btn-show.checkout__product-btn-input.btn.btn-primary(type='submit' value='Đặt hàng')
+  
   div#box-notify
     div.box-notify-image
       img(src="/image/done-icon.png")
-    p.box-notify__label Đặt hàng thành công
-  script(src="/js/showNotify.js")          
+    p.box-notify__label Đặt hàng thành công.
+  script(src="/js/showNotify.js")      
 
 

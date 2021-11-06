@@ -19,7 +19,7 @@ block content
         .cart-item
           .cart-item__product
             .cart-item__img
-              img(src=product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
+              img(src=product.image ? product.image : '/image/default-image.jpeg', alt='')
             a(href='/detail/'+product.id).cart-item__name= product.name
           .cart-item__unit-price= bill.state
           .cart-item__quantum= 1

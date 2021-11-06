@@ -32,7 +32,7 @@ block content-profile
                 span.purchase__state-label Chờ xác nhận
           .purchase__item
             .purchase__item-pic
-              img(src= product.image ? product.image.slice(1, -1) : '/image/default-image.jpeg', alt='')
+              img(src= product.image ? product.image : '/image/default-image.jpeg', alt='')
             .purchase__item-content
               p.purchase__item-name= product.name
               span.purchase__item-quantity= `x${bills[i].quantum || 1}`

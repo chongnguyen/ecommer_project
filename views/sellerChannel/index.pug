@@ -38,7 +38,7 @@ body
           .row
             .col.l-2
               .sidebar
-                .sidebar__item
+                .sidebar__item.active
                   p.sidebar__heading
                     img(src='https://cf.shopee.vn/file/3fa3bdb20eb201ae3f157ee8d11a39d5' alt='')
                     span Qu&#x1EA3;n l&yacute; s&#x1EA3;n ph&#x1EA9;m
@@ -46,18 +46,18 @@ body
                   #sidebarDropdown.sidebar__dropdown
                     a.sidebar__dropdown-item(href='/seller/product') T&#x1EA5;t c&#x1EA3; s&#x1EA3;n ph&#x1EA9;m
                     a.sidebar__dropdown-item(href='/seller/create') Th&ecirc;m s&#x1EA3;n ph&#x1EA9;m
-                .sidebar__item
+                .sidebar__item.active
                   p.sidebar__heading
                     img(src='https://cf.shopee.vn/file/f82f8ccb649afcdf4f07f1dd9c41bcb0' alt='')
                     span Qu&#x1EA3;n l&yacute; &dstrok;&#x1A1;n h&agrave;ng
                     i.fas.fa-angle-down
                   #sidebarDropdown.sidebar__dropdown
                     a.sidebar__dropdown-item(href='/seller/bill') T&#x1EA5;t c&#x1EA3;
-                    a.sidebar__dropdown-item(href='#') Ch&#x1EDD; x&aacute;c nh&#x1EAD;n
-                    a.sidebar__dropdown-item(href='#') &Dstrok;&atilde; h&#x1EE7;y
-                    a.sidebar__dropdown-item(href='#') Tr&#x1EA3; h&agrave;ng
-                    a.sidebar__dropdown-item(href='#') Ch&#x1EDD; l&#x1EA5;y h&agrave;ng
-                .sidebar__item
+                    a.sidebar__dropdown-item(href='/seller/bill?type=0') Ch&#x1EDD; x&aacute;c nh&#x1EAD;n
+                    a.sidebar__dropdown-item(href='/seller/bill?type=1') &Dstrok;&atilde; h&#x1EE7;y
+                    a.sidebar__dropdown-item(href='/seller/bill?type=2') Tr&#x1EA3; h&agrave;ng
+                    a.sidebar__dropdown-item(href='/seller/bill?type=3') Ch&#x1EDD; l&#x1EA5;y h&agrave;ng
+                .sidebar__item.active
                   p.sidebar__heading
                     img(src='https://cf.shopee.vn/file/6b1ffcde1ff12621088110f419a5283a' alt='')
                     span Qu&#x1EA3;n l&yacute; shop
@@ -79,19 +79,19 @@ body
                               p.todo__item-num= stateBill[n++] || 0
                               p.todo__item-label= tab
                         .col.l-3
-                          a.todo__item.separate(href='')
+                          a.todo__item.separate.btn-alert(href='javascript:function() { return false; }')
                             p.todo__item-num= stateBill[n++] || 0
                             p.todo__item-label Ch&#x1B0;&#x1A1;ng tr&igrave;nh khuy&#x1EBF;n m&atilde;i
                         .col.l-3
-                          a.todo__item.separate(href='')
+                          a.todo__item.separate.btn-alert(href='javascript:function() { return false; }')
                             p.todo__item-num= stateBill[n++] || 0
                             p.todo__item-label Tr&#x1EA3; h&agrave;ng / Ho&agrave;n ti&#x1EC1;n
                         .col.l-3
-                          a.todo__item.separate(href='')
+                          a.todo__item.separate.btn-alert(href='javascript:function() { return false; }')
                             p.todo__item-num= stateBill[n++] || 0
                             p.todo__item-label S&#x1EA3;n ph&#x1EA9;m h&#x1EBF;t h&agrave;ng
                         .col.l-3
-                          a.todo__item(href='')
+                          a.todo__item.btn-alert(href='javascript:function() { return false; }')
                             p.todo__item-num= stateBill[n++] || 0
                             p.todo__item-label S&#x1EA3;n ph&#x1EA9;m b&#x1ECB; kh&oacute;a
 
