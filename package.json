@@ -5,8 +5,8 @@
     "author": "NguyenChong <chongnguyen19@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "nodemon --inspect app.js",
-        "start": "node app.js"
+        "dev": "PORT=4000 nodemon --inspect app.js",
+        "start": "PORT=3000 node app.js"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
