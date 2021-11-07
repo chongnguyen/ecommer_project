@@ -695,3 +695,145 @@ textarea.form-group__input {
 .cart-empty-img.bill {
     margin-top: 40px;
 }
+
+/* Footer section */
+.footer {
+    background-color: #fbfbfb;
+    border-top: 3px solid var(--primary-color);
+    padding-top: 50px;
+}
+.footer__title-heading {
+    color: #737373;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.footer__care-item,
+.footer__about-item,
+.footer__follow-item {
+    line-height: 30px;
+}
+
+.footer__care-link,
+.footer__about-link,
+.footer__follow-link {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1.3rem;
+}
+
+.footer__care-link:hover,
+.footer__about-link:hover,
+.footer__follow-link:hover {
+    color: var(--primary-color);
+}
+
+.footer__pay-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.footer__pay-item {
+    width: 28%;
+    height: 30px;
+    background-image: url('../image/logo-branch.png');
+    margin-bottom: 10px;
+}
+
+.footer__pay-item--visa {
+    background-position: 262px 142px;
+}
+.footer__pay-item--mc {
+    background-position: 338px 99px;
+}
+
+.footer__pay-item--jcb {
+    background-position: 490px 130px;
+}
+.footer__pay-item--blue {
+    background-position: -78px 178px;
+    transform: scale(1.2);
+}
+.footer__pay-item--cod {
+    background-position: 431px 175px;
+}
+.footer__pay-item--tg {
+    background-position: 272px 88px;
+}
+
+.footer__pay-item--ghtk {
+    background-position: -134px 89px;
+}
+.footer__pay-item--ghn {
+    background-position: -59px 85px;
+}
+.footer__pay-item--vt-post {
+    background-position: -416px -39px;
+}
+.footer__pay-item--vn-post {
+    background-position: 86px 108px;
+}
+.footer__pay-item--jt {
+    background-position: -518px 0px;
+}
+.footer__pay-item--grap {
+    background-position: -336px -57px;
+}
+.footer__follow-link i {
+    color: #4a4a4a;
+    font-size: 1.6rem;
+    margin-right: 5px;
+    transform: translateY(1px);
+}
+
+.footer__download-body {
+    display: flex;
+}
+
+.footer__download-qr {
+    width: 86px;
+    margin-right: 10px;
+}
+
+.footer__download-qr img {
+    width: 100%;
+}
+
+.footer__download-store {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.footer__download-store img {
+    height: 20px;
+}
+
+.footer-info {
+    background-color: #f5f5f5;
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 40px 0 10px;
+    margin-top: 26px;
+}
+.footer-info-item:not(:last-child) .footer-info-item__link {
+    border-right: 1px solid rgb(209, 208, 208);
+}
+.footer-info-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+.footer-info-item__link {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.54);
+    text-decoration: none;
+    padding: 0px 24px;
+}
+.container {
+    min-height: 80vh;
+}
