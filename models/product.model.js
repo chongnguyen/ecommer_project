@@ -13,6 +13,7 @@ const ProductSchema = new mongoose.Schema({
     shopId: String,
     date: Date,
     address: String,
+    isShow: { type: Boolean, default: true },
 });
 
 ProductSchema.index({ name: 'text' });

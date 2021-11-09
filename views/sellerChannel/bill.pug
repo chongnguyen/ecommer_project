@@ -39,7 +39,7 @@ block content
                   .cart-item__img
                     img(src=product.image ? product.image : '/image/default-image.jpeg', alt='')
                   a(href='/detail/'+product.id).cart-item__name= product.name
-                .cart-item__unit-price.bill-confirm.active= tabs[bills[i].state]
+                .cart-item__unit-price.bill-confirm(class='btn-status-bill-'+bills[i].state)= tabs[bills[i].state]
                 //- if(bills[i].state)
                 //- else
                 //-   .cart-item__unit-price.bill-confirm Chờ xác nhận

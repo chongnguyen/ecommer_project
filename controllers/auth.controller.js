@@ -28,8 +28,8 @@ module.exports.postRegister = async (req, res) => {
         password = md5(req.body.password),
         verifyCode = generatorCode(),
         verified = false;
-    phone = phone.replace(0, '+84');
-    const existsPhone = await User.findOne({ phone });
+    const newPhone = phone.replace(0, '+84');
+    const existsPhone = await User.findOne({ phone: newPhone, verified: true });
     if (existsPhone) {
         res.render('auths/register', {
             errs: ['Số điện thoại đã được sử dụng'],
@@ -40,9 +40,14 @@ module.exports.postRegister = async (req, res) => {
         return;
     }
 
-    User.create({ phone, password, verifyCode, verified }, (err, data) => {
-        data.sendMessage(verifyCode, phone);
-    });
+    const user = await User.findOneAndUpdate(
+        {
+            phone: newPhone,
+        },
+        { verified, password, verifyCode },
+        { upsert: true, new: true }
+    );
+    user.sendMessage(verifyCode, newPhone);
 
     if (req.signedCookies.userId) {
         userName;

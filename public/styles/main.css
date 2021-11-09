@@ -1394,6 +1394,14 @@
     width: 15%;
 }
 
+.cart-item__unit-price {
+    display: flex;
+    flex-direction: column;
+}
+.cart-item__unit-price > del {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
 .cart-bar__quantum,
 .cart-item__quantum {
     width: 15%;

@@ -27,6 +27,10 @@ module.exports.cart = async (req, res) => {
 module.exports.purchase = async (req, res) => {
     const tabs = ['Chờ xác nhận', 'Đang giao', 'Đã giao', 'Đã hủy'];
     let { userId } = req.signedCookies;
+    const patternReceived = /type=2/;
+    const patternCancel = /type=3/;
+    const isReceived = patternReceived.test(req.url);
+    const isCancel = patternCancel.test(req.url);
     const { type } = req.query;
     const billCondition = {
         buyerId: userId,
@@ -55,8 +59,34 @@ module.exports.purchase = async (req, res) => {
     const billDelivered = await Bill.find({
         buyerId: userId,
         state: 2,
+        isBuyerRead: { $ne: true },
     }).countDocuments();
-    const billStatus = [billWaiting, billDelivering, billDelivered];
+    const billCancel = await Bill.find({
+        buyerId: userId,
+        state: 3,
+        isBuyerRead: { $ne: true },
+    }).countDocuments();
+    if (isReceived) {
+        await Bill.updateMany(
+            {
+                buyerId: userId,
+                state: 2,
+                isBuyerRead: { $ne: true },
+            },
+            { isBuyerRead: true }
+        );
+    }
+    if (isCancel) {
+        await Bill.updateMany(
+            {
+                buyerId: userId,
+                state: 3,
+                isBuyerRead: { $ne: true },
+            },
+            { isBuyerRead: true }
+        );
+    }
+    const billStatus = [billWaiting, billDelivering, billDelivered, billCancel];
     res.render('users/purchase', {
         bills,
         products,

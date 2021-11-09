@@ -20,7 +20,7 @@ block container
               a(href='/detail/'+product.id).cart-item__name= product.name
             .cart-item__unit-price
               del= product.oldPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-              span &nbsp;&nbsp;&nbsp;
+              //- span &nbsp;&nbsp;&nbsp;
               span= product.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
             .cart-item__quantum= cart[product.id]
             .cart-item__bill-price= (product.price  * cart[product.id]).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})

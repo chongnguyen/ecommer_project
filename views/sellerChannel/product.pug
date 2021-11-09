@@ -56,36 +56,43 @@ block content
                 span= product.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})
               .cart-item__quantum= product.quantum
               .cart-item__handle
-                a.cart-item__delete.cart-item__delete-blue(href='/seller/update/' + product.id)  Sửa
-                a.cart-item__delete(href='/seller/product/delete/' + product.id)  X&oacute;a
+                a.cart-item__delete.cart-item__delete(href='/seller/product/hide/' + product.id)
+                  if product.isShow
+                    <i title='Ẩn sản phẩm' class="fas fa-eye"></i> 
+                  else
+                    <i title='Hiện sản phẩm' class="far fa-eye-slash"></i>
+                a.cart-item__delete.cart-item__delete-blue(href='/seller/update/' + product.id)
+                  <i title='Sửa sản phẩm' class="far fa-edit"></i>
+                a.cart-item__delete(href='/seller/product/delete/' + product.id)
+                  <i title='Xóa sản phẩm' class="far fa-trash-alt"></i>
           if !products[0]
             .cart-empty-box
               .cart-empty-img.bill
                 img(src="/image/empty-box.png", alt="")
               p.cart-empty-label Chưa có sản phẩm nào!
-          else 
-            .pagination
-              ul.pagination__list
-                li.pagination__item
-                  if(hasPrevPage)
-                    a.pagination__link(href='?page=' + (active - 1))
-                      i.pagination__link-icon.fas.fa-angle-left
-                  else
-                    a.pagination__link.disabled-link
-                      i.pagination__link-icon.fas.fa-angle-left
-                each page in pages
-                  li.pagination__item
-                    if(page === active)
-                      a.pagination__link.pagination__link--active(href='?page=' + page)= page
-                    else 
-                      a.pagination__link(href='?page=' + page)= page
-                li.pagination__item
-                  if(hasNextPage)
-                    a.pagination__link(href='?page=' + (active + 1))
-                      i.pagination__link-icon.fas.fa-angle-right
-                  else
-                    a.pagination__link.disabled-link(href='?page=' + (active + 1))
-                      i.pagination__link-icon.fas.fa-angle-right
+      if products[0]
+        .pagination
+          ul.pagination__list
+            li.pagination__item
+              if(hasPrevPage)
+                a.pagination__link(href='?page=' + (active - 1))
+                  i.pagination__link-icon.fas.fa-angle-left
+              else
+                a.pagination__link.disabled-link
+                  i.pagination__link-icon.fas.fa-angle-left
+            each page in pages
+              li.pagination__item
+                if(page === active)
+                  a.pagination__link.pagination__link--active(href='?page=' + page)= page
+                else 
+                  a.pagination__link(href='?page=' + page)= page
+            li.pagination__item
+              if(hasNextPage)
+                a.pagination__link(href='?page=' + (active + 1))
+                  i.pagination__link-icon.fas.fa-angle-right
+              else
+                a.pagination__link.disabled-link(href='?page=' + (active + 1))
+                  i.pagination__link-icon.fas.fa-angle-right
           //- .pagination
           //-   ul.pagination__list
           //-     li.pagination__item

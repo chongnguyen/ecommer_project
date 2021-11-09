@@ -104,6 +104,10 @@ module.exports.product = async (req, res) => {
 module.exports.bill = async (req, res) => {
     let { userId: shopId } = req.signedCookies;
     const { type } = req.query;
+    const patternReceived = /type=2/;
+    const patternCancel = /type=3/;
+    const isReceived = patternReceived.test(req.url);
+    const isCancel = patternCancel.test(req.url);
     const billCondition = {
         shopId,
         state: { $ne: 3 },
@@ -114,9 +118,11 @@ module.exports.bill = async (req, res) => {
     }
     let bills = await Bill.find(billCondition);
     let productIds = [];
-
+    const products = [];
     for (let bill of bills) {
-        productIds.push(bill.productId);
+        // productIds.push(bill.productId);
+        const product = await Product.findById(bill.productId);
+        products.push(product);
     }
 
     const { page: currentPage = 1, q: search } = req.query;
@@ -128,7 +134,7 @@ module.exports.bill = async (req, res) => {
     }
 
     let {
-        docs: products,
+        docs,
         page,
         totalPages,
         hasNextPage,
@@ -151,8 +157,34 @@ module.exports.bill = async (req, res) => {
     const billDelivered = await Bill.find({
         shopId,
         state: 2,
+        isShopRead: { $ne: true },
     }).countDocuments();
-    const billStatus = [billWaiting, billDelivering, billDelivered];
+    const billCancel = await Bill.find({
+        shopId,
+        state: 3,
+        isShopRead: { $ne: true },
+    }).countDocuments();
+    if (isReceived) {
+        await Bill.updateMany(
+            {
+                shopId,
+                state: 2,
+                isShopRead: { $ne: true },
+            },
+            { isShopRead: true }
+        );
+    }
+    if (isCancel) {
+        await Bill.updateMany(
+            {
+                shopId,
+                state: 3,
+                isShopRead: { $ne: true },
+            },
+            { isShopRead: true }
+        );
+    }
+    const billStatus = [billWaiting, billDelivering, billDelivered, billCancel];
     res.render('sellerChannel/bill', {
         products,
         page,
@@ -169,6 +201,14 @@ module.exports.bill = async (req, res) => {
     });
 };
 
+module.exports.hideProduct = async (req, res) => {
+    let { productId } = req.params;
+    const product = await Product.findById(productId);
+    product.isShow = !product.isShow;
+    await product.save();
+    // await Product.updateOne({ _id: productId }, { isShow: true });
+    res.redirect('back');
+};
 module.exports.deleteProduct = async (req, res) => {
     let { productId } = req.params;
     Product.deleteOne({ _id: productId }, (err) => {
@@ -187,11 +227,13 @@ module.exports.confirmBill = async (req, res) => {
     let bill = (await Bill.findOne({ _id: billId })) || {};
     let product = (await Product.findOne({ _id: bill.productId })) || {};
     let user = (await User.findOne({ _id: bill.buyerId })) || {};
-
+    const status = tabs[bill.state];
+    console.log({ status });
     res.render('sellerChannel/confirmBill', {
         bill,
         product,
         user,
+        status,
     });
 };
 

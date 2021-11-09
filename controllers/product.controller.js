@@ -7,7 +7,7 @@ module.exports.index = async (req, res) => {
         genre = req.params.genre,
         address = req.params.address,
         { kind = '' } = req.query,
-        objFind = {};
+        objFind = { isShow: true };
     const options = {
         sort: {
             date: -1,
