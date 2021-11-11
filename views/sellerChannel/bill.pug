@@ -43,8 +43,8 @@ block content
                 //- if(bills[i].state)
                 //- else
                 //-   .cart-item__unit-price.bill-confirm Chờ xác nhận
-                .cart-item__quantum= 1
-                .cart-item__bill-price= (product.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+                .cart-item__quantum= bills[i].quantum
+                .cart-item__bill-price= (product.price * bills[i].quantum).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
                 .cart-item__handle
                   a.cart-item__delete(href='/seller/bill/'+bills[i].id) Chi tiết
             .pagination

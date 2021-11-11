@@ -20,10 +20,11 @@ const authMiddleware = require('./middlewares/auth.middleware');
 const app = express();
 
 // getting-started.js
-mongoose.connect(
-    `mongodb+srv://ecommer:${process.env.PASSWORD}@ecommer.w6zqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-    { useNewUrlParser: true }
-);
+let connectString = 'mongodb://localhost:27017/ecommmer';
+if (process.env.NODE_ENV === 'production') {
+    connectString = `mongodb+srv://ecommer:${process.env.PASSWORD}@ecommer.w6zqa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+}
+mongoose.connect(connectString, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {

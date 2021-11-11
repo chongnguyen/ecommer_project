@@ -22,9 +22,9 @@ block content
               img(src=product.image ? product.image : '/image/default-image.jpeg', alt='')
             a(href='/detail/'+product.id).cart-item__name= product.name
           .cart-item__unit-price(class='btn-status-bill-'+product.state)= status
-          .cart-item__quantum= 1
-          .cart-item__bill-price= (product.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
-      if(product.state == 0)
+          .cart-item__quantum= bill.quantum
+          .cart-item__bill-price= (product.price * bill.quantum).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+      if(bill.state == 0)
         form(action="", method="post")
           input.btn.btn-primary.btn-seller(type="submit", value="Xác nhận đơn hàng")
           a(href='/user/purchase/delete/'+bill.id).btn.btn-secondary.btn-detail-bill.btn-seller Hủy đơn hàng

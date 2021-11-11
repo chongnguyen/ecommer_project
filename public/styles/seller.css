@@ -538,6 +538,7 @@ textarea.form-group__input {
     text-align: right;
     font-size: 1.6rem;
     border: none;
+    cursor: pointer;
 }
 .add-product {
     margin-bottom: 40px;

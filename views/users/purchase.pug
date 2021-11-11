@@ -26,8 +26,12 @@ block content-profile
                 img(src= shops[i] && shops[i].avatar, alt='')
               p.purchase__shop-name= shops[i] && shops[i].shopName
             .purchase__state
-              if(bills[i].state)
-                span.purchase__state-label Đang lấy hàng
+              if(bills[i].state == 1)
+                span.purchase__state-label Đang giao
+              else if(bills[i].state == 2)
+                span.purchase__state-label Đã giao
+              else if(bills[i].state == 3)
+                span.purchase__state-label Đã hủy
               else
                 span.purchase__state-label Chờ xác nhận
           .purchase__item

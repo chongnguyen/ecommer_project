@@ -26,5 +26,6 @@ block container
             .cart-item__bill-price= (product.price  * cart[product.id]).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
             .cart-item__handle
               a.cart-item__delete(href='/user/cart/delete/' + product.id)  X&oacute;a
-        div.cart-btn
-          a(href='/user/checkout/?' + queryParams).btn.btn-primary.btn-purchase Mua hàng
+        if(listProduct[0])
+          div.cart-btn
+            a(href='/user/checkout/?' + queryParams).btn.btn-primary.btn-purchase Mua hàng

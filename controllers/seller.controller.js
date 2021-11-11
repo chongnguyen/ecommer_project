@@ -102,6 +102,7 @@ module.exports.product = async (req, res) => {
     // });
 };
 module.exports.bill = async (req, res) => {
+    console.log('hello');
     let { userId: shopId } = req.signedCookies;
     const { type } = req.query;
     const patternReceived = /type=2/;
@@ -117,6 +118,7 @@ module.exports.bill = async (req, res) => {
         billCondition.state = type;
     }
     let bills = await Bill.find(billCondition);
+    // console.log({ bills });
     let productIds = [];
     const products = [];
     for (let bill of bills) {
@@ -228,7 +230,6 @@ module.exports.confirmBill = async (req, res) => {
     let product = (await Product.findOne({ _id: bill.productId })) || {};
     let user = (await User.findOne({ _id: bill.buyerId })) || {};
     const status = tabs[bill.state];
-    console.log({ status });
     res.render('sellerChannel/confirmBill', {
         bill,
         product,
@@ -265,9 +266,22 @@ module.exports.postCreate = (req, res) => {
     let product = { ...req.body };
     product.shopId = id;
     product.date = new Date();
+    console.log({ product });
     if (product.price <= 0 || product.oldPrice <= 0) {
         res.send(
             '<script>alert("Giá của sản phẩm không được âm, vui lòng kiểm tra lại!"); location.assign("/seller/create")</script>'
+        );
+        return;
+    }
+    if (product.oldPrice - product.price <= 0) {
+        res.send(
+            '<script>alert("Giá gốc phải lớn hơn giá mới, vui lòng kiểm tra lại!"); location.assign("/seller/create")</script>'
+        );
+        return;
+    }
+    if (isNaN(Number(product.price)) || isNaN(Number(product.oldPrice))) {
+        res.send(
+            '<script>alert("Giá của sản phẩm phải là một số, vui lòng kiểm tra lại!"); location.assign("/seller/create")</script>'
         );
         return;
     }
@@ -292,7 +306,6 @@ module.exports.postCreate = (req, res) => {
             }
         );
     }
-
     Product.create(product);
 
     res.redirect('back');

@@ -160,7 +160,7 @@ module.exports.checkout = async (req, res) => {
     let { userId } = req.signedCookies;
     const cart = req.query;
     const productIds = Object.keys(cart);
-    // const quantum = Object.values(cart);
+    const quantum = Object.values(cart);
     let products = (await Product.find({ _id: productIds })) || {};
     let user = (await User.findOne({ _id: userId })) || {};
     const totalPrice = products.reduce((a, b, index) => {
@@ -235,13 +235,20 @@ module.exports.postAccout = async (req, res) => {
 
 module.exports.postCheckout = async (req, res) => {
     const Bill = require('../models/bill.model.js');
-
+    let buyerId = req.signedCookies.userId;
+    const foundUser = await User.findById(buyerId);
+    if (!foundUser.address) {
+        res.send(
+            "<script>alert('Vui lòng bổ sung thông tin nhân hàng'); location.assign('/user/account');</script>"
+        );
+        return;
+    }
     const cart = req.query;
     const productIds = Object.keys(cart);
     const quantum = Object.values(cart);
     const bills = [];
     // let { productId } = req.params;
-    let buyerId = req.signedCookies.userId;
+
     let { note: notes } = req.body;
     let i = 0;
     for (const productId of productIds) {
@@ -270,6 +277,6 @@ module.exports.postCheckout = async (req, res) => {
             return;
         }
         // res.send("<script>alert('Đặt hàng thành công!'); location.assign('/');</script>")
-        res.redirect('/');
+        res.redirect('/user/purchase?type=0');
     });
 };

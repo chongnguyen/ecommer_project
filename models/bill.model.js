@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const BillSchema = new mongoose.Schema({
-    productId: String,
+    productId: { type: mongoose.Types.ObjectId, ref: 'Product' },
     buyerId: String,
     shopId: String,
     price: Number,
