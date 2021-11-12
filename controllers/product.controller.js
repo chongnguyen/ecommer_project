@@ -7,7 +7,7 @@ module.exports.index = async (req, res) => {
         genre = req.params.genre,
         address = req.params.address,
         { kind = '' } = req.query,
-        objFind = { isShow: true };
+        objFind = { isShow: true, quantum: { $gte: 1 } };
     const options = {
         sort: {
             date: -1,
@@ -77,7 +77,7 @@ module.exports.detail = async (req, res) => {
     let similarProducts = await Product.find({
         $or: [{ genres }, { shopId }],
     }).limit(12);
-
+    console.log('helo');
     res.render('products/detail', {
         product,
         similarProducts,

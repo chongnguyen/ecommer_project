@@ -12,7 +12,7 @@ options.addArguments('disable-gpu');
 options.addArguments([`user-agent="${USER_AGENT}"`]);
 
 module.exports.initProductData = async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const { keys } = req.body;
     let shopId = req.signedCookies.userId;
     console.log({ keys });
@@ -62,7 +62,7 @@ module.exports.initProductData = async (req, res) => {
             `);
             uris.push(...urls);
         }
-        
+
         const products = [];
         for (const link of uris) {
             console.log({ link });
@@ -111,13 +111,13 @@ module.exports.initProductData = async (req, res) => {
             products.push({ ...product, shopId });
         }
         await Product.insertMany(products);
-        console.log('Done')
+        console.log('Done');
         const resultData = {
             success: true,
             msg: 'init data successfully!',
             payload: products.length,
         };
-        res.end(JSON.stringify(resultData))
+        res.end(JSON.stringify(resultData));
         return resultData;
     } catch (e) {
         console.log('cant init data');
@@ -127,18 +127,17 @@ module.exports.initProductData = async (req, res) => {
         await driver.quit();
         res.end();
     }
-    
 };
 
 // module.exports.initProductDataV2 = async (shopId) => {
 //     const keywords = [
-//         'chan vay',
-//         'dam',
+//         'dien thoai',
+//         'may anh',
 //         'ban phim co',
 //         'macbook',
 //         'ghe gaming',
 //     ];
-//     for(const key of keywords){
+//     for (const key of keywords) {
 //         const url = `https://shopee.vn/search?keyword=${key}&noCorrection=true&preferred=true`;
 //         const products = [];
 
@@ -155,20 +154,21 @@ module.exports.initProductData = async (req, res) => {
 //         //     shopId: String,
 //         //     date: Date
 //         //   });
-//         for(const foundProduct of shoppeProducts.items){
+//         for (const foundProduct of shoppeProducts.items) {
 //             const product = {};
-//             const { 
-//                 name, price, 
-//                 price_before_discount: oldPrice, 
-//                 genres, 
-//                 image, 
+//             const {
+//                 name,
+//                 price,
+//                 price_before_discount: oldPrice,
+//                 genres,
+//                 image,
 //                 stock: quantum,
 //                 description,
 //                 itemid: sku,
 //             } = product;
 //         }
 //     }
-// }
+// };
 // async function getProducts(url) {
 //     const result = await fetch(url);
 //     return result.json();

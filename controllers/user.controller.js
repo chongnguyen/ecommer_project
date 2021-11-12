@@ -134,15 +134,13 @@ module.exports.cancelBill = async (req, res) => {
     const bill = await Bill.findOneAndUpdate(
         {
             _id: billId,
-            buyerId: userId,
+            $or: [{ buyerId: userId }, { shopId: userId }],
         },
         {
             state: 3,
         },
         { new: true }
     );
-
-    console.log({ bill });
 
     res.redirect('back');
 };
